@@ -38,8 +38,8 @@ func formatError(p Printer, f Formatter) {
 	if next == nil {
 		return
 	}
+	p.Print("--- ")
 	if f, ok := next.(Formatter); ok {
-		p.Print("--- ")
 		formatError(p, f)
 		return
 	}

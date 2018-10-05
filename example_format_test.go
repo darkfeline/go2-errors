@@ -50,13 +50,14 @@ func (e RootError) Error() string {
 func (e RootError) Format(p errors.Printer) error {
 	p.Printf("%s:\n", e.Title)
 	if p.Detail() {
-		p.Printf("    %s", e.Detail)
+		p.Printf("    %s\n", e.Detail)
 	}
 	return nil
 }
 
 func ExampleFormat() {
-	err := Wrapper{
+	var err error
+	err = Wrapper{
 		Title:  "foo",
 		Detail: "some context",
 		Err: Wrapper{
@@ -71,6 +72,9 @@ func ExampleFormat() {
 	fmt.Print(errors.Format(err, false))
 	fmt.Println()
 	fmt.Print(errors.Format(err, true))
+	fmt.Println()
+	err = errors.Wrap(errors.Wrap(errors.New("baz"), "bar"), "foo")
+	fmt.Print(errors.Format(err, true))
 	// Output:
 	// foo:
 	// --- spam:
@@ -82,4 +86,8 @@ func ExampleFormat() {
 	//     stuff
 	// --- egg:
 	//     stuff
+	//
+	// foo:
+	// --- bar:
+	// --- baz
 }

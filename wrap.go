@@ -26,7 +26,7 @@ type wrapped struct {
 // Wrap wraps the error in a basic implementation of Wrapper.
 func Wrap(err error, text string) error {
 	return wrapped{
-		text:    fmt.Sprintf("%s: %s", text, err),
+		text:    text,
 		wrapped: err,
 	}
 }
@@ -37,9 +37,14 @@ func Wrapf(err error, format string, args ...interface{}) error {
 }
 
 func (w wrapped) Error() string {
-	return w.text
+	return fmt.Sprintf("%s: %s", w.text, w.wrapped)
 }
 
 func (w wrapped) Unwrap() error {
+	return w.wrapped
+}
+
+func (w wrapped) Format(p Printer) error {
+	p.Printf("%s:\n", w.text)
 	return w.wrapped
 }

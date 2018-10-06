@@ -54,6 +54,30 @@ func As(t reflect.Type, err error) (e error, ok bool) {
 	return nil, false
 }
 
+// As checks whether err or any of the errors in its chain is a value of the type t points to.
+// If so, it returns true, with the discovered value set to t.
+// If not, it returns false.
+func AsValue(t interface{}, err error) (ok bool) {
+	v := reflect.ValueOf(t)
+	if v.Type().Kind() != reflect.Ptr {
+		panic("non-pointer passed to AsValue")
+	}
+	return asValue(v.Elem(), err)
+}
+
+func asValue(v reflect.Value, err error) (ok bool) {
+	et := reflect.TypeOf(err)
+	vt := v.Type()
+	if et == vt || vt.Kind() == reflect.Interface && et.Implements(vt) {
+		v.Set(reflect.ValueOf(err))
+		return true
+	}
+	if w, ok := err.(Wrapper); ok {
+		return asValue(v, w.Unwrap())
+	}
+	return false
+}
+
 // A Formatter formats error messages.
 type Formatter interface {
 	// Format is implemented by errors to print a single error message.

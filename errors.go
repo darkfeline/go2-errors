@@ -44,8 +44,8 @@ func Is(err, target error) bool {
 }
 
 // AsValue checks whether err or any of the errors in its chain is a
-// value of the type t points to.  If so, it returns true, with t set to the
-// discovered value set.  If not, it returns false.
+// value of the type t points to.  If so, it returns true, with t set
+// to the discovered value.  If not, it returns false.
 func AsValue(t interface{}, err error) (ok bool) {
 	v := reflect.ValueOf(t)
 	if v.Type().Kind() != reflect.Ptr {

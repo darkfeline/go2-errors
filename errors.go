@@ -15,6 +15,8 @@
 // Package errors implements the error values proposal for Go 2.
 //
 // https://go.googlesource.com/proposal/+/master/design/go2draft-error-values-overview.md
+// https://go.googlesource.com/proposal/+/master/design/go2draft-error-inspection.md
+// https://go.googlesource.com/proposal/+/master/design/go2draft-error-printing.md
 package errors
 
 import (
@@ -54,9 +56,9 @@ func As(t reflect.Type, err error) (e error, ok bool) {
 	return nil, false
 }
 
-// As checks whether err or any of the errors in its chain is a value of the type t points to.
-// If so, it returns true, with the discovered value set to t.
-// If not, it returns false.
+// AsValue checks whether err or any of the errors in its chain is a
+// value of the type t points to.  If so, it returns true, with t set to the
+// discovered value set.  If not, it returns false.
 func AsValue(t interface{}, err error) (ok bool) {
 	v := reflect.ValueOf(t)
 	if v.Type().Kind() != reflect.Ptr {

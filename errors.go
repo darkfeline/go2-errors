@@ -43,19 +43,6 @@ func Is(err, target error) bool {
 	return false
 }
 
-// As checks whether err or any of the errors in its chain is a value of type E.
-// If so, it returns the discovered value of type E, with ok set to true.
-// If not, it returns the zero value of type E, with ok set to false.
-func As(t reflect.Type, err error) (e error, ok bool) {
-	if reflect.TypeOf(err) == t {
-		return err, true
-	}
-	if w, ok := err.(Wrapper); ok {
-		return As(t, w.Unwrap())
-	}
-	return nil, false
-}
-
 // AsValue checks whether err or any of the errors in its chain is a
 // value of the type t points to.  If so, it returns true, with t set to the
 // discovered value set.  If not, it returns false.

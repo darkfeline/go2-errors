@@ -23,8 +23,12 @@ type wrapped struct {
 	wrapped error
 }
 
-// Wrap wraps the error in a basic implementation of Wrapper.
+// Wrap wraps the error in a basic implementation of Wrapper.  If the
+// error is nil, nil is returned.
 func Wrap(err error, text string) error {
+	if err != nil {
+		return nil
+	}
 	return wrapped{
 		text:    text,
 		wrapped: err,

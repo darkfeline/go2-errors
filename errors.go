@@ -17,6 +17,13 @@
 // https://go.googlesource.com/proposal/+/master/design/go2draft-error-values-overview.md
 // https://go.googlesource.com/proposal/+/master/design/go2draft-error-inspection.md
 // https://go.googlesource.com/proposal/+/master/design/go2draft-error-printing.md
+//
+// With the finalization of the proposal, new users are encouraged to
+// use golang.org/x/xerrors.  This package is stable and you are free
+// to keep using it.  The interfaces provided are consistent with the
+// with the final version of the proposal.
+//
+// https://go.googlesource.com/proposal/+/master/design/29934-error-values.md
 package errors
 
 import (
